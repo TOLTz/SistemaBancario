@@ -1,6 +1,7 @@
 import phonenumbers
 import re
 from datetime import datetime
+
 def getInput(prompt, validation=None, errorMensage='Entrada invalida, por favor tente novamente'):
     while True:
         userInput = input(prompt)
@@ -8,11 +9,8 @@ def getInput(prompt, validation=None, errorMensage='Entrada invalida, por favor 
             return userInput
         print(errorMensage)
 
-def digit(args):
-    return args.isdigit()
-
 def isdate(args):
-    maxAge = 80
+    maxAge = 120
     _pattern = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$"
     if not re.match(_pattern, args):
         return False
@@ -39,7 +37,6 @@ def isEmail(email):
     else:
         return False
 
-
 def celVerify(args, zipCode='+55'):
     try:
         _celphone = phonenumbers.parse(zipCode + args, None)
@@ -50,3 +47,19 @@ def celVerify(args, zipCode='+55'):
     except phonenumbers.NumberParseException as e:
         print('erro ao tentar validar o numero \n pode haver numeros faltando, ou caracteres invalidos.')
         return False
+    
+    
+def validar_cpf(cpf):
+    cpf = ''.join(filter(str.isdigit, cpf))
+    if len(cpf) != 11 or cpf == cpf[0] * 11:
+        return False
+
+    soma1 = sum(int(cpf[i]) * (10 - i) for i in range(9))
+    digito1 = (soma1 * 10 % 11) % 10
+
+    soma2 = sum(int(cpf[i]) * (11 - i) for i in range(10))
+    digito2 = (soma2 * 10 % 11) % 10
+
+    return digito1 == int(cpf[9]) and digito2 == int(cpf[10])
+
+    

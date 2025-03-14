@@ -2,11 +2,27 @@ from os import system
 from datetime import date, timedelta
 import saque
 import deposito
+import cadastro
+from login import login
 """
     Criar um sistema bancario com deposito, saque e extrato.
     limite de 10 saques diarios, maximo de R$500,00 por saque   
 """
 extrato = {'Total': 0, 'Extrato': []}
+pessoas = []
+while True:
+    print('Bem vindo ao banco New SP')
+    escolha = input('Login[1] \nRegristo[2]\n')
+    if escolha == '1':
+        entrada = login(pessoas)
+        if entrada:
+            break
+    elif escolha == '2':
+        cadastro.salvar_conta(pessoas)
+    else:
+        system('cls')
+        print("Digite uma opcao valida!")
+
 
 
 def ext(extrato, total=extrato['Total']):
@@ -15,8 +31,8 @@ def ext(extrato, total=extrato['Total']):
     for i in extrato['Extrato']:
         print(i)
     print(f'Seu total é de R${total}.00')
-    
-_ = True
+   
+
 hoje = date.today()
 while _:
     print('-'*35)
